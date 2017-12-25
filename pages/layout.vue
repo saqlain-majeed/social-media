@@ -1,0 +1,47 @@
+<template>
+  <div class="containe-r">
+    <headerC></headerC>
+    <searcherC></searcherC>
+    <mainC></mainC>
+    <asideC></asideC>
+    <listC></listC>
+    <topButton></topButton>
+    <footerC></footerC>
+  </div>
+</template>
+
+<script type="text/javascript">
+
+import { headerC, topButton, footerC, searcherC } from '~/components/common'
+import mainC from '~/components/mainC'
+import asideC from '~/components/asideC'
+import listC from '~/components/listC'
+
+export default {
+  data () {
+    return {}
+  },
+  components: {
+    headerC,
+    topButton,
+    footerC,
+    mainC,
+    asideC,
+    listC,
+    searcherC
+  }
+}
+</script>
+
+
+<style media="screen">
+img{width: 100%;}
+
+@media screen and (min-width: 750px) {
+  .containe-r{
+    width: 100%;
+    display:flex;
+	  flex-flow:row wrap;
+  }
+}
+</style>
