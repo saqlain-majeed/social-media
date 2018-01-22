@@ -1,7 +1,7 @@
 {
   "name": "WhereToEat",
   "version": "1.0.0",
-  "description": "Look restaurants. Enjoy the food.",
+  "description": "The ideal tool for food lovers",
   "author": " Victor Gonzalez <vicdata@outlook.com>",
   "private": true,
   "dependencies": {

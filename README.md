@@ -1,6 +1,6 @@
 # WhereToEat
 
-> Look restaurants. Enjoy the food.
+> The ideal tool for food lovers
 
 ## Build Setup
 
