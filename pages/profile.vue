@@ -4,41 +4,64 @@
     <searcherC></searcherC>
     <profileC></profileC>
     <profilePostsC></profilePostsC>
-    <topButton></topButton>
     <footerC></footerC>
+    <div v-if="isLoading" class="load"><img src="~/assets/oval.svg" width="80" alt=""></div>
   </div>
 </template>
 <script>
 
 import profileC from '~/components/profile/profileC'
-import { headerC, footerC, topButton, searcherC } from '~/components/common'
+import { headerC, footerC, searcherC } from '~/components/common'
 import profilePostsC from '~/components/profile/profilePostsC'
 import { mapActions } from 'vuex'
 
 export default{
   data () {
-    return {}
+    return {
+      isLoading: true
+    }
   },
   components: {
     headerC,
     profileC,
-    topButton,
     footerC,
     profilePostsC,
     searcherC
   },
-  methods: {
-    ...mapActions(['bindFirebaseSetPost'])
+  computed: {
+    ...mapActions(['bindAuth', 'unbindFirebaseReferences'])
+  },
+  mounted () {
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+    setTimeout(() => {
+      this.isLoading = false
+      document.getElementsByTagName('body')[0].style.overflow = 'visible'
+    }, 2000)
   },
   created () {
-    this.bindFirebaseSetPost()
+    this.bindAuth
+  },
+  destroyed () {
+    this.unbindFirebaseReferences
   }
 }
 </script>
 
 <style media="screen">
-img{width: 100%;}
-
+img {
+  width: 100%;
+}
+.load {
+  padding-top: 20%;
+  padding-left: 47%;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height:100%;
+  background-color: rgba(255,255,255,0.8);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 @media screen and (min-width: 750px) {
   .containe-r{
     width: 100%;

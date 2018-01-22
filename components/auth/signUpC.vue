@@ -1,22 +1,8 @@
 <template>
-  <div class="bloc">
-    <div class="col">
-      <h1>Accede</h1>
-      <div class="login">
-        <h5>Usuario</h5>
-        <input type="text" v-model="userLog" placeholder="usuario"><i class="material-icons ico">&#xe7fd;</i>
-        <h5>Contraseña</h5>
-        <input type="password" v-model="passwordLog" placeholder="contraseña"><i class="material-icons ico">&#xE899;</i>
-        <p>No recuerdas tu contraseña?</p>
-        <button type="button" @click="loggin" class="btn btn-danger send">Log-in</button>
-      </div>
-    </div>
     <div class="col left">
       <h1>Regístrate</h1>
       *Todos los campos son obligatorios
       <div class="login">
-        <h5>Nombre completo</h5>
-        <input type="text" v-model="fullName" maxlength="20" placeholder="nombre y apellidos"><i class="material-icons ico">&#xE87C;</i>
         <h5>Nombre de usuario</h5>
         <input type="text" v-model="userName" maxlength="15" placeholder="nombre de usuario"><i class="material-icons ico">&#xe7fd;</i>
         <h5>Contraseña</h5>
@@ -27,8 +13,6 @@
         <h5>E-mail</h5>
         <input type="email" v-model="email" maxlength="30" placeholder="@"><i class="material-icons ico">&#xE878;</i>
         <div v-if="showEmailAdv" class="fillF"><h5>{{this.emailAlert}}</h5></div>
-        <h5>Edad</h5>
-        <input type="text" v-model="age" maxlength="3" placeholder="edad"><i class="material-icons ico">&#xE878;</i>
         <h5>Ciudad</h5>
         <input type="text" v-model="city" maxlength="30" placeholder="ciudad"><i class="material-icons ico">&#xE88A;</i>
         <div class="conditions">
@@ -38,24 +22,18 @@
       </div>
       <div v-if="showFieldAdv" class="fillF"><h5>{{this.fillField}}</h5></div>
     </div>
-  </div>
 </template>
 <script type="text/javascript">
 
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { fieldFilter, emailTest, isEmpty } from '~/utils/utils'
 export default {
   data () {
     return {
-      userLog: '',
-      passwordLog: '',
-      user_id: '',
-      fullName: '',
       userName: '',
       password: '',
       repeatPassword: '',
       email: '',
-      age: '',
       city: '',
       fillField: '',
       emailAlert: '',
@@ -67,12 +45,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['createUserAuth', 'authenticate', 'onSetLogOut', 'bindAuth']),
+    ...mapActions(['createUserAuth']),
     onAddNewUser () {
       this.showFieldAdv = false
       this.showPassAdv = false
       this.showEmailAdv = false
-      const obj = {fullName: this.fullName, userName: this.userName, password: this.password, repeatPassword: this.repeatPassword, email: this.email, age: this.age, city: this.city}
+      const obj = {userName: this.userName, password: this.password, repeatPassword: this.repeatPassword, email: this.email, city: this.city}
       if (isEmpty(obj)) {
         this.showFieldAdv = true
         this.fillField = '**Tienes que rellenar todos los campos'
@@ -88,41 +66,26 @@ export default {
           this.fillField = '**Debes aceptar los términos y condiciones'
         } else {
           this.confirmed = true
-          this.user_id = Math.random().toString(36).split('.')[1]
-          this.fullName = fieldFilter(this.fullName)
           this.userName = fieldFilter(this.userName)
           this.password = fieldFilter(this.password)
           this.repeatPassword = fieldFilter(this.repeatPassword)
-          this.age = fieldFilter(this.age)
           this.city = fieldFilter(this.city)
 
           const newUser = {
-            user_id: this.user_id,
-            name: this.fullName,
             username: this.userName,
             password: this.password,
             repeatPassword: this.repeatPassword,
             email: this.email,
-            age: this.age,
             city: this.city,
             followers: 0,
-            src: 'profile'
+            src: 'https://firebasestorage.googleapis.com/v0/b/wheretoeat-ca57a.appspot.com/o/defaultImages%2Fprofile.jpg?alt=media&token=a4d0d1f4-03c4-409c-bdb6-de7f81a533a3'
           }
           let method = this.createUserAuth
           method({email: this.email, password: this.password, newUser})
           this.$router.push('/profile')
         }
       }
-    },
-    loggin () {
-      let method = this.authenticate
-      method({email: this.userLog, password: this.passwordLog})
     }
-  },
-  computed: {
-    ...mapGetters({
-      userData: 'getProfile'
-    })
   }
 }
 </script>
@@ -163,10 +126,6 @@ img{width: 100%;}
   height: 50px;
 }
 
-.bloc {
-  width: 100%;
-  margin-top: 2%;
-}
 .col {
   padding: 30px;
   width: 100%;
@@ -180,11 +139,6 @@ input {
 }
 
 @media screen and (min-width: 750px) {
-
-  .bloc {
-    display: flex;
-    flex-flow: row nowrap;
-  }
   .col {
     width: 50%;
 

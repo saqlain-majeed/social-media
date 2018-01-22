@@ -1,7 +1,7 @@
 // Initialize Firebase
 import firebase from 'firebase'
 
-let config = {
+var config = {
   apiKey: 'AIzaSyAk3Zc6tgu6TZIJdPj__DTRzWOSwPUgHAo',
   authDomain: 'wtedata-eb0c5.firebaseapp.com',
   databaseURL: 'https://wtedata-eb0c5.firebaseio.com',

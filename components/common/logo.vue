@@ -13,5 +13,10 @@ export default {
     }
   }
 }
-
 </script>
+
+<style scoped media="screen">
+img {
+  width: 100%;
+}
+</style>

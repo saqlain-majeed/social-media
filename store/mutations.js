@@ -1,21 +1,21 @@
 export default {
-  addNewPost (state, newPost) {
-    state.profilePosts.unshift(newPost)
+  setNewProfile (state, value) {
+    state.newProfile = value
   },
-  editProfileRef (state, value) {
-    state.newInfo = value
+  setNewPost (state, value) {
+    state.newPost = value
   },
-  unSetPosts (state) {
-    state.profilePosts = []
-  },
-  setPostRef (state, value) {
-    state.postRef = value
+  setUserPosts (state, value) {
+    state.userPosts = value
   },
   setUser (state, userid) {
     state.userId = userid
   },
   setUserData (state, userData) {
     state.userData = userData
+  },
+  addNewComment (state, newComment) {
+    state.newComment = newComment
   },
   setAuthError (state, value) {
     state.authError = value

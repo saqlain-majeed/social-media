@@ -9,5 +9,9 @@ export const emailTest = email => {
 }
 
 export const isEmpty = obj => {
-  return obj['fullName'] === '' || obj['userName'] === '' || obj['password'] === '' || obj['repeatPassword'] === '' || obj['email'] === '' || obj['age'] === '' || obj['city'] === ''
+  return obj['userName'] === '' || obj['password'] === '' || obj['repeatPassword'] === '' || obj['email'] === '' || obj['city'] === ''
+}
+
+export const newFaceGooUser = email => {
+  return {username: '-', password: '-', repeatPassword: '-', email: email, city: '-', followers: '0', src: 'https://firebasestorage.googleapis.com/v0/b/wheretoeat-ca57a.appspot.com/o/defaultImages%2Fprofile.jpg?alt=media&token=a4d0d1f4-03c4-409c-bdb6-de7f81a533a3'}
 }

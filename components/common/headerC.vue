@@ -19,7 +19,7 @@
 
     <div class="menu">
       <div class="userch">
-        <nuxt-link :to="this.logged"><i class="material-icons ico">&#xe7fd;</i></nuxt-link>
+        <nuxt-link :to="'/' + this.logged"><i class="material-icons ico">&#xe7fd;</i></nuxt-link>
         <div class="btn-group" role="group">
           <div class="btn-group">
             <nuxt-link to="#" id="showSearcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons ico">&#xe8b6;</i></nuxt-link>
@@ -50,7 +50,7 @@ export default {
     searcherC
   },
   computed: {
-    ...mapGetters({ isLogged: 'getProfile' }),
+    ...mapGetters({ isLogged: 'getUser' }),
     logged () {
       if (this.isLogged) {
         return 'profile'
@@ -74,7 +74,6 @@ export default {
   width: 100%;
   height: 70px;
   background:#00a4ba;
-  // background:#fb3b07;
   border-top-style: solid;
   border-left-style: solid;
   border-right-style: solid;
@@ -125,7 +124,7 @@ export default {
   z-index:1;
   background-color:#fff;
   margin-left: -3em;
-  margin-top: 6.3em;
+  margin-top: 6.7em;
   width: 130%;
   color: black;
 }

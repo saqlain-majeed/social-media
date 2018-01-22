@@ -5,25 +5,33 @@
     <mainC></mainC>
     <asideC></asideC>
     <listC></listC>
-    <topButton></topButton>
     <footerC></footerC>
   </div>
 </template>
 
 <script type="text/javascript">
 
-import { headerC, topButton, footerC, searcherC } from '~/components/common'
-import mainC from '~/components/mainC'
-import asideC from '~/components/asideC'
-import listC from '~/components/listC'
+import { headerC, footerC, searcherC } from '~/components/common'
+import mainC from '~/components/homepage/mainC'
+import asideC from '~/components/homepage/asideC'
+import listC from '~/components/homepage/listC'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {}
   },
+  computed: {
+    ...mapActions(['bindAuth', 'unbindFirebaseReferences'])
+  },
+  created () {
+    this.bindAuth
+  },
+  destroyed () {
+    this.unbindFirebaseReferences
+  },
   components: {
     headerC,
-    topButton,
     footerC,
     mainC,
     asideC,

@@ -2,7 +2,7 @@
   <div>
     <h2>Subir publicación</h2>
     <h5>Imagen</h5>
-    <input type="file" name="" value="">
+    <input @change="imgRef($event.target.files)" type="file" ref="imageFile">
     <div class="blocinf">
       <div class="cel">
         <h5>Restaurante</h5>
@@ -48,21 +48,32 @@
 </template>
 <script type="text/javascript">
 import addPostConfirmC from '~/components/profile/addPostConfirmC'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/wheretoeat-ca57a.appspot.com/o/defaultImages%2Fempty.png?alt=media&token=5ea847ec-0c84-477d-9635-313d4acf73cd',
+      tarjet: '',
+      imgref: '',
       title: '',
       points: 5,
       bill: 0,
       comTitle: '',
       comment: '',
       showModal: false,
-      fillField: ''
+      fillField: '',
+      loaded: false,
+      postId: ''
     }
   },
+  computed: {
+    ...mapGetters({ userId: 'getUser' })
+  },
   methods: {
-    ...mapActions(['addNewPost']),
+    ...mapActions(['addNewPost', 'uploadImage']),
+    imgRef (file) {
+      this.tarjet = file
+    },
     onAddNewPost () {
       if (this.title === '' || this.comTitle === '' || this.comment === '') {
         this.fillField = '**Tienes que rellenar todos los campos'
@@ -71,10 +82,10 @@ export default {
         this.title = this.title.replace(char, ' ')
         this.comTitle = this.comTitle.replace(char, ' ')
         this.comment = this.comment.replace(char, ' ')
-
+        this.postId = Math.random().toString(36).replace('0.', '') + Date.now().toString(36)
         const newPost = {
           id: 4,
-          src: 'empty',
+          src: this.photoURL,
           location: '(googleMaps)',
           title: this.title,
           points: this.points,
@@ -82,9 +93,20 @@ export default {
           comTitle: this.comTitle,
           comment: this.comment,
           showButton: true,
-          tlf: '123 456 789'
+          tlf: '123 456 789',
+          post_id: this.postId,
+          user_id: this.userId
         }
-        this.addNewPost(newPost)
+        if (this.tarjet !== '') {
+          this.uploadImage({files: [...this.tarjet], folder: 'postImages'}).then(picUrls => {
+            newPost.src = picUrls[0]
+            this.addNewPost(newPost)
+            this.$refs.imageFile.value = null
+            this.loaded = true
+          })
+        } else {
+          this.addNewPost(newPost)
+        }
         this.showModal = true
         this.title = ''
         this.points = 5
@@ -92,6 +114,10 @@ export default {
         this.comTitle = ''
         this.comment = ''
         this.fillField = ''
+        this.photoURL = 'https://firebasestorage.googleapis.com/v0/b/wheretoeat-ca57a.appspot.com/o/defaultImages%2Fempty.png?alt=media&token=5ea847ec-0c84-477d-9635-313d4acf73cd'
+        this.tarjet = ''
+        this.$refs.imageFile.value = null
+        this.postId = ''
       }
     },
     setModalState () {

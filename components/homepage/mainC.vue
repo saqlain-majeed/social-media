@@ -12,16 +12,4 @@
   flex:1 1 70%;
   padding: 5px;
 }
-
-@media screen and (min-width: 650px) {
-  .mainBloc{
-    min-width: 100%;
-  }
-}
-
-@media screen and (min-width: 800px) {
-  .main{
-
-  }
-}
 </style>
