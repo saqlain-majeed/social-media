@@ -95,7 +95,8 @@ export default {
           showButton: true,
           tlf: '123 456 789',
           post_id: this.postId,
-          user_id: this.userId
+          user_id: this.userId,
+          time: ''
         }
         if (this.tarjet !== '') {
           this.uploadImage({files: [...this.tarjet], folder: 'postImages'}).then(picUrls => {

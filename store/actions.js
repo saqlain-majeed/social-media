@@ -1,4 +1,5 @@
 import firebaseApp from '~/firebaseapp'
+import firebase from 'firebase'
 import {firebaseAction} from 'vuexfire'
 import { newFaceGooUser } from '~/utils/utils'
 import { userRef, usrPosts, postComments } from '~/utils/firebaseReferences'
@@ -81,6 +82,7 @@ export default {
     })
   }),
   addNewPost ({commit, state, dispatch}, newPost) {
+    newPost.time = firebase.database.ServerValue.TIMESTAMP
     userPostRef(state.userId, newPost.post_id).set(newPost)
     postComments(newPost.post_id).set({post_id: newPost.post_id})
     ratingUserRef(newPost.post_id, state.userId).set({user_id: state.userId, score: newPost.points})
