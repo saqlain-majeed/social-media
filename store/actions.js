@@ -82,7 +82,7 @@ export default {
     })
   }),
   addNewPost ({commit, state, dispatch}, newPost) {
-    newPost.time = firebase.database.ServerValue.TIMESTAMP
+    newPost.date = firebase.database.ServerValue.TIMESTAMP
     userPostRef(state.userId, newPost.post_id).set(newPost)
     postComments(newPost.post_id).set({post_id: newPost.post_id})
     ratingUserRef(newPost.post_id, state.userId).set({user_id: state.userId, score: newPost.points})
@@ -90,9 +90,13 @@ export default {
   },
   addNewComment ({state}, newComment) { state.newComment.push(newComment) },
   editProfile ({commit, state}, newProfile) { state.newProfile.update(newProfile) },
+  showMorePosts: firebaseAction(({state, commit, dispatch}, pag) => {
+    let userPosts = usrPosts(state.userId).orderByChild('date').limitToFirst(pag)
+    dispatch('bindFirebaseReference', {reference: userPosts, toBind: 'userPosts'})
+  }),
   bindFirebaseSetProfile: firebaseAction(({state, commit, dispatch}, uid) => {
     let userProfile = userRef(uid)
-    let userPosts = usrPosts(uid)
+    let userPosts = usrPosts(uid).orderByChild('date').limitToFirst(7)
     dispatch('bindFirebaseReference', {reference: userProfile, toBind: 'userData'}).then(() => { commit('setNewProfile', userProfile) })
     dispatch('bindFirebaseReference', {reference: userPosts, toBind: 'userPosts'})
   }),
@@ -104,6 +108,15 @@ export default {
     let postCommnts = postComments(postid)
     dispatch('bindFirebaseReference', {reference: postCommnts, toBind: 'postComments'}).then(() => { commit('addNewComment', postCommnts) })
   }),
+  /*
+  setPagination: firebaseAction(({state, commit, dispatch}, uid) => {
+    console.log('**' + uid)
+    usrPosts(uid).orderByChild('date').on('child_added', snapshot => {
+      console.log(snapshot.key)
+      console.log(snapshot.val())
+    })
+  }),
+  */
   bindFirebaseReference: firebaseAction(({bindFirebaseRef, state}, {reference, toBind}) => {
     return reference.once('value').then(snapshot => {
       if (!snapshot.val()) {
@@ -118,6 +131,7 @@ export default {
     commit('setUser', null)
     commit('setUserData', null)
     commit('setUserPosts', null)
+    commit('setUserPosts', [])
     try {
       unbindFirebaseRef('posts')
       unbindFirebaseRef('users')
