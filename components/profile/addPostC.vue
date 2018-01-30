@@ -33,7 +33,7 @@
     <div class="blocinf">
       <div class="cel">
         <h5>Añadir localización</h5>
-        <button type="button" class="btn btn-info">Buscar en Google Maps</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#showMapLocation">Buscar en Google Maps</button>
       </div>
       <div class="cel">
         <h5 style="color:white; background:white;">.</h5>
@@ -44,11 +44,13 @@
       </div>
       <addPostConfirmC :initialShow="showModal" @onCloseModal="setModalState"></addPostConfirmC>
     </div>
+    <addLocationC @setCoor="setCoordinates($event)"></addLocationC>
   </div>
 </template>
 <script type="text/javascript">
 import addPostConfirmC from '~/components/profile/addPostConfirmC'
 import { mapActions, mapGetters } from 'vuex'
+import addLocationC from '~/components/profile/addLocationC'
 export default {
   data () {
     return {
@@ -63,7 +65,9 @@ export default {
       showModal: false,
       fillField: '',
       loaded: false,
-      postId: ''
+      postId: '',
+      lat: '',
+      lng: ''
     }
   },
   computed: {
@@ -71,6 +75,11 @@ export default {
   },
   methods: {
     ...mapActions(['addNewPost', 'uploadImage']),
+    setCoordinates (data) {
+      console.log(data)
+      this.lat = data.lat
+      this.lng = data.lng
+    },
     imgRef (file) {
       this.tarjet = file
     },
@@ -94,7 +103,9 @@ export default {
           tlf: '123 456 789',
           post_id: this.postId,
           user_id: this.userId,
-          date: ''
+          date: '',
+          lat: this.lat,
+          lng: this.lng
         }
         if (this.tarjet !== '') {
           this.uploadImage({files: [...this.tarjet], folder: 'postImages'}).then(picUrls => {
@@ -117,6 +128,8 @@ export default {
         this.tarjet = ''
         this.$refs.imageFile.value = null
         this.postId = ''
+        this.lat = ''
+        this.lng = ''
       }
     },
     setModalState () {
@@ -124,7 +137,8 @@ export default {
     }
   },
   components: {
-    addPostConfirmC
+    addPostConfirmC,
+    addLocationC
   }
 }
 </script>

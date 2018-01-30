@@ -25,6 +25,9 @@ module.exports = {
     ]
   },
   loading: false,
+  plugins: [
+    '~plugins/maps.js'
+  ],
   build: {
     extend (config, ctx) {
       if (ctx.isClient) {

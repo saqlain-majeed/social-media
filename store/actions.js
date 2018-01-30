@@ -108,15 +108,6 @@ export default {
     let postCommnts = postComments(postid)
     dispatch('bindFirebaseReference', {reference: postCommnts, toBind: 'postComments'}).then(() => { commit('addNewComment', postCommnts) })
   }),
-  /*
-  setPagination: firebaseAction(({state, commit, dispatch}, uid) => {
-    console.log('**' + uid)
-    usrPosts(uid).orderByChild('date').on('child_added', snapshot => {
-      console.log(snapshot.key)
-      console.log(snapshot.val())
-    })
-  }),
-  */
   bindFirebaseReference: firebaseAction(({bindFirebaseRef, state}, {reference, toBind}) => {
     return reference.once('value').then(snapshot => {
       if (!snapshot.val()) {
@@ -130,7 +121,6 @@ export default {
   unbindFirebaseReferences: firebaseAction(({unbindFirebaseRef, commit}) => {
     commit('setUser', null)
     commit('setUserData', null)
-    commit('setUserPosts', null)
     commit('setUserPosts', [])
     try {
       unbindFirebaseRef('posts')

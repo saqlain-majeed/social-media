@@ -8,9 +8,9 @@
           <starsC :info="info"></starsC>
       </div>
       <div class="icoption">
-        <nuxt-link to="#" data-toggle="modal" data-target="#mapLocation"><i class="material-icons" style="color:#a85122;">&#xe55f;</i></nuxt-link>
+        <a href="#" data-toggle="modal" :data-target="mapRef"><i class="material-icons" style="color:#a85122;">&#xe55f;</i></a>
         <a href="#" @click="setComments" data-toggle="modal" data-target="#showComments"><i class="material-icons">&#xe0b9;</i></a>
-        <nuxt-link to="#" data-toggle="modal" v-bind:data-target="nInfo"><i class="material-icons">&#xe0cd;</i></nuxt-link>
+        <a href="#" data-toggle="modal" v-bind:data-target="1"><i class="material-icons">&#xe0cd;</i></a>
       </div>
     </div>
     <hr>
@@ -36,7 +36,7 @@
     props: ['info'],
     data () {
       return {
-        nInfo: '#' + this.info.id,
+        mapRef: '#' + this.info.post_id,
         src: this.info.src,
         loadingImage: true,
         loadedImage: false,
