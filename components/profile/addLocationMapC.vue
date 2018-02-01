@@ -5,13 +5,12 @@
       <button class="btn btn-info bot" @click="usePlace">Aceptar</button>
     </label>
     <br/>
-    <GmapMap style="width: 480px; height: 200px;" :zoom="1" :center="{lat: 0, lng: 0}">
+    <GmapMap style="width: 100%; height: 300px;" :zoom="1" :center="{lat: 0, lng: 0}">
       <GmapMarker v-for="(marker, index) in markers" :key="index" :position="marker.position" />
-      <GmapMarker v-if="this.place" :position="{ lat: this.place.geometry.location.lat(), lng: 2.1734034999999494 }" />
+      <GmapMarker v-if="this.place" :position="{ lat: this.place.geometry.location.lat(), lng: this.place.geometry.location.lng() }" />
     </GmapMap>
   </div>
   </template>
-
   <script>
   export default {
     data () {

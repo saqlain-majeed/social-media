@@ -81,6 +81,9 @@ export default {
       })
     })
   }),
+  setCoordinates ({commit}, coordinates) {
+    commit('setCoords', coordinates)
+  },
   addNewPost ({commit, state, dispatch}, newPost) {
     newPost.date = firebase.database.ServerValue.TIMESTAMP
     userPostRef(state.userId, newPost.post_id).set(newPost)

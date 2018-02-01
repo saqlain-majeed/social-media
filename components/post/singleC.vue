@@ -8,7 +8,7 @@
           <starsC :info="info"></starsC>
       </div>
       <div class="icoption">
-        <a href="#" data-toggle="modal" :data-target="mapRef"><i class="material-icons" style="color:#a85122;">&#xe55f;</i></a>
+        <button @click="setMod" id="myBtn" class="locbut"><i class="material-icons" style="color:#a85122;font-size:35px;">&#xe55f;</i></button>
         <a href="#" @click="setComments" data-toggle="modal" data-target="#showComments"><i class="material-icons">&#xe0b9;</i></a>
         <a href="#" data-toggle="modal" v-bind:data-target="1"><i class="material-icons">&#xe0cd;</i></a>
       </div>
@@ -19,7 +19,7 @@
     <h3>{{ info.comTitle }}</h3>
     <p>{{ info.comment }} </p>
     <ratingC :info="info"></ratingC>
-    <showMapC :info="info"></showMapC>
+    <div id="myModal" class="modl"><showMapC class="modlbox" @closeMod="closeMod()"></showMapC></div>
     <showCommentsC :info="info"></showCommentsC>
     <showInfoC :info="info"></showInfoC>
     </div>
@@ -45,7 +45,7 @@
       }
     },
     methods: {
-      ...mapActions(['bindFirebaseComments']),
+      ...mapActions(['bindFirebaseComments', 'setCoordinates']),
       showBill (n) {
         var x = parseInt(n)
         if (x === 0) {
@@ -60,6 +60,13 @@
       },
       setComments () {
         this.bindFirebaseComments(this.info.post_id)
+      },
+      setMod () {
+        this.setCoordinates({ lng: this.info.lng, lat: this.info.lat })
+        document.getElementById('myModal').style.visibility = 'visible'
+      },
+      closeMod () {
+        document.getElementById('myModal').style.visibility = 'hidden'
       }
     },
     components: {
@@ -91,8 +98,15 @@
 </script>
 
 <style scoped lang='scss'>
-
+@import 'assets/sass/modalcss';
 @import "assets/sass/colors.scss";
+.locbut {
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: 100%;
+}
 img {
   width: 100%;
 }
@@ -149,6 +163,7 @@ img {
 .icoption{
   display: flex;
   flex-flow: row-reverse nowrap;
+  align-items: center;
   /*flex-grow: 1;*/
   /*
   display: flex;
@@ -181,6 +196,10 @@ hr {
   font-weight:500;
 }
 @media screen and (min-width: 650px) {
+  .modlbox {
+    padding: 5px;
+    width: 80%;
+  }
   .mainBloc{
     width: 50%;
     padding: 5px;

@@ -1,18 +1,16 @@
 <template>
-  <div class="" id="showMapLocation" tabindex="-1" aria-labelledby="showL" aria-hidden="true">
+  <div>
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="showL">Localiza tu restaurante</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <span @click="closeMod" class="close">&times;</span>
         </div>
         <div class="modal-body">
           <addLocationMapC @coordinates="set($event)"></addLocationMapC>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" @click="closeMod" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
@@ -31,6 +29,9 @@ export default {
   methods: {
     set (data) {
       this.$emit('setCoor', data)
+    },
+    closeMod () {
+      this.$emit('closeMod', true)
     }
   }
 }

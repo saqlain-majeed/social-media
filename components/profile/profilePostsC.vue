@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="contain">
   <div class="listBloc">
       <singleC v-for="info in userPosts" :key="info.src" v-if="info.src" :info="info"></singleC>
   </div>
@@ -43,6 +43,9 @@
   display: flex;
   flex-direction: column;
   align-content: center;
+}
+.contain {
+  width: 100%;
 }
 @media screen and (min-width: 650px) {
   .listBloc {

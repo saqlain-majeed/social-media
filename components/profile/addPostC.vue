@@ -33,7 +33,7 @@
     <div class="blocinf">
       <div class="cel">
         <h5>Añadir localización</h5>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#showMapLocation">Buscar en Google Maps</button>
+        <button type="button" @click="setMod" id="myBtn2" class="btn btn-info">Buscar en Google Maps</button>
       </div>
       <div class="cel">
         <h5 style="color:white; background:white;">.</h5>
@@ -44,7 +44,7 @@
       </div>
       <addPostConfirmC :initialShow="showModal" @onCloseModal="setModalState"></addPostConfirmC>
     </div>
-    <addLocationC @setCoor="setCoordinates($event)"></addLocationC>
+    <div id="myModal2" class="modl"><addLocationC @closeMod="closeMod()" @setCoor="setCoordinates($event)"></addLocationC></div>
   </div>
 </template>
 <script type="text/javascript">
@@ -79,6 +79,7 @@ export default {
       console.log(data)
       this.lat = data.lat
       this.lng = data.lng
+      this.closeMod()
     },
     imgRef (file) {
       this.tarjet = file
@@ -134,6 +135,12 @@ export default {
     },
     setModalState () {
       this.showModal = false
+    },
+    setMod () {
+      document.getElementById('myModal2').style.visibility = 'visible'
+    },
+    closeMod () {
+      document.getElementById('myModal2').style.visibility = 'hidden'
     }
   },
   components: {
@@ -142,7 +149,8 @@ export default {
   }
 }
 </script>
-<style scoped media="screen">
+<style scoped lang='scss'>
+@import 'assets/sass/modalcss';
 @import "assets/sass/colors.scss";
 
 .fillF {

@@ -19,5 +19,8 @@ export default {
   },
   setAuthError (state, value) {
     state.authError = value
+  },
+  setCoords (state, value) {
+    state.coords = value
   }
 }
