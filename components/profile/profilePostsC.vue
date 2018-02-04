@@ -1,9 +1,9 @@
 <template>
   <div class="contain">
-  <div class="listBloc">
-      <singleC v-for="info in userPosts" :key="info.post_id" v-if="info.post_id" :info="info"></singleC>
-  </div>
-  <div class="showmore" v-if="nPosts"><button @click="showMore" type="button" class="btn btn-info">Mostrar mas</button></div>
+    <div class="listBloc">
+      <singleC v-for="info in userPosts" :key="info.date" v-if="info.date" :info="info"></singleC>
+    </div>
+    <div class="showmore" v-if="nPosts"><button @click="showMore" type="button" class="btn btn-info">Mostrar mas</button></div>
   </div>
 </template>
 <script>
@@ -19,16 +19,17 @@
       singleC
     },
     methods: {
-      ...mapActions(['showMorePosts']),
+      ...mapActions(['bindFirebaseSetProfile']),
       showMore () {
         this.showPag = this.showPag + 6
-        this.showMorePosts(this.showPag)
+        this.bindFirebaseSetProfile({uid: this.userId, pag: this.showPag})
       }
     },
     computed: {
       ...mapGetters({
         userPosts: 'profilePosts',
-        numPosts: 'getNumPosts'
+        numPosts: 'getNumPosts',
+        userId: 'getUser'
       }),
       nPosts () {
         if (this.numPosts <= 7 || this.showPag > this.numPosts) {

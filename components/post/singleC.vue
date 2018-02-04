@@ -62,8 +62,10 @@
         this.bindFirebaseComments(this.info.post_id)
       },
       setMod () {
-        this.setCoordinates({ lng: this.info.lng, lat: this.info.lat })
-        document.getElementById('myModal').style.visibility = 'visible'
+        if (this.info.lng !== 0 && this.info.lat !== 0) {
+          this.setCoordinates({ lng: this.info.lng, lat: this.info.lat })
+          document.getElementById('myModal').style.visibility = 'visible'
+        }
       },
       closeMod () {
         document.getElementById('myModal').style.visibility = 'hidden'

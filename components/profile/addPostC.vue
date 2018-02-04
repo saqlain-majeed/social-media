@@ -66,8 +66,8 @@ export default {
       fillField: '',
       loaded: false,
       postId: '',
-      lat: '',
-      lng: ''
+      lat: 0,
+      lng: 0
     }
   },
   computed: {
@@ -132,15 +132,9 @@ export default {
         this.lng = ''
       }
     },
-    setModalState () {
-      this.showModal = false
-    },
-    setMod () {
-      document.getElementById('myModal2').style.visibility = 'visible'
-    },
-    closeMod () {
-      document.getElementById('myModal2').style.visibility = 'hidden'
-    }
+    setModalState () { this.showModal = false },
+    setMod () { document.getElementById('myModal2').style.visibility = 'visible' },
+    closeMod () { document.getElementById('myModal2').style.visibility = 'hidden' }
   },
   components: {
     addPostConfirmC,
