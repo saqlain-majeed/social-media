@@ -76,7 +76,6 @@ export default {
   methods: {
     ...mapActions(['addNewPost', 'uploadImage']),
     setCoordinates (data) {
-      console.log(data)
       this.lat = data.lat
       this.lng = data.lng
       this.closeMod()

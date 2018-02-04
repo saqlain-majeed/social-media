@@ -5,5 +5,6 @@ export default {
   getUser: state => state.userId,
   getComments: state => state.postComments,
   getVPosts: state => state.vPosts,
-  getCoords: state => state.coords
+  getCoords: state => state.coords,
+  getNumPosts: state => state.numPosts
 }

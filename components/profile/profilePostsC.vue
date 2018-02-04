@@ -1,9 +1,9 @@
 <template>
   <div class="contain">
   <div class="listBloc">
-      <singleC v-for="info in userPosts" :key="info.src" v-if="info.src" :info="info"></singleC>
+      <singleC v-for="info in userPosts" :key="info.post_id" v-if="info.post_id" :info="info"></singleC>
   </div>
-  <div class="showmore"><button @click="showMore" type="button" class="btn btn-info">Mostrar mas</button></div>
+  <div class="showmore" v-if="nPosts"><button @click="showMore" type="button" class="btn btn-info">Mostrar mas</button></div>
   </div>
 </template>
 <script>
@@ -12,7 +12,7 @@
   export default {
     data () {
       return {
-        showPag: 13
+        showPag: 7
       }
     },
     components: {
@@ -21,14 +21,22 @@
     methods: {
       ...mapActions(['showMorePosts']),
       showMore () {
-        this.showMorePosts(this.showPag)
         this.showPag = this.showPag + 6
+        this.showMorePosts(this.showPag)
       }
     },
     computed: {
       ...mapGetters({
-        userPosts: 'profilePosts'
-      })
+        userPosts: 'profilePosts',
+        numPosts: 'getNumPosts'
+      }),
+      nPosts () {
+        if (this.numPosts <= 7 || this.showPag > this.numPosts) {
+          return false
+        } else {
+          return true
+        }
+      }
     }
   }
   </script>

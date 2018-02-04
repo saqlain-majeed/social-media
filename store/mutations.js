@@ -22,5 +22,8 @@ export default {
   },
   setCoords (state, value) {
     state.coords = value
+  },
+  setNumPosts (state, value) {
+    state.numPosts = value
   }
 }

@@ -81,9 +81,6 @@ export default {
       })
     })
   }),
-  setCoordinates ({commit}, coordinates) {
-    commit('setCoords', coordinates)
-  },
   addNewPost ({commit, state, dispatch}, newPost) {
     newPost.date = firebase.database.ServerValue.TIMESTAMP
     userPostRef(state.userId, newPost.post_id).set(newPost)
@@ -91,6 +88,7 @@ export default {
     ratingUserRef(newPost.post_id, state.userId).set({user_id: state.userId, score: newPost.points})
     globalRef(newPost.post_id).set({num: 1, sum: newPost.points})
   },
+  setCoordinates ({commit}, coordinates) { commit('setCoords', coordinates) },
   addNewComment ({state}, newComment) { state.newComment.push(newComment) },
   editProfile ({commit, state}, newProfile) { state.newProfile.update(newProfile) },
   showMorePosts: firebaseAction(({state, commit, dispatch}, pag) => {
@@ -100,6 +98,7 @@ export default {
   bindFirebaseSetProfile: firebaseAction(({state, commit, dispatch}, uid) => {
     let userProfile = userRef(uid)
     let userPosts = usrPosts(uid).orderByChild('date').limitToFirst(7)
+    usrPosts(uid).once('value', snapshot => { if (snapshot.val()) { commit('setNumPosts', snapshot.numChildren()) } })
     dispatch('bindFirebaseReference', {reference: userProfile, toBind: 'userData'}).then(() => { commit('setNewProfile', userProfile) })
     dispatch('bindFirebaseReference', {reference: userPosts, toBind: 'userPosts'})
   }),
