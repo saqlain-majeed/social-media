@@ -6,11 +6,6 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { hid: 'keywords', name: 'keywords', content: '' },
-      { hid: 'image', property: 'og:image', name: 'og:image', content: '' },
-      { hid: 'url', property: 'og:url', name: 'og:url', content: '' },
-      { hid: 'title', property: 'og:title', name: 'og:title', content: 'WhereToEat' },
-      { hid: 'ogdescription', property: 'og:description', name: 'og:description', content: '' }
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
@@ -25,19 +20,5 @@ module.exports = {
     ]
   },
   loading: false,
-  plugins: [
-    '~plugins/maps.js'
-  ],
-  build: {
-    extend (config, ctx) {
-      if (ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    }
-  }
+  plugins: ['~plugins/maps.js']
 }

@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
-    <div class="logo">
-      <logo></logo>
+  <div class="heade-r">
+    <div class="logo"><logo></logo></div>
+    <div class="navabar">
+      <nuxt-link to="/" data-toggle="collapse" data-target="#menu"><i class="material-icons ico">&#xe5d2;</i></nuxt-link>
     </div>
-    <nav>
-      <nuxt-link to="#menu" data-toggle="collapse" data-target="#menu" aria-expanded="false" aria-controls="menu"><i class="material-icons ico">&#xe5d2;</i></nuxt-link>
-    </nav>
-    <div id="menu" class="collapse mob-menu">
+    <!--
+    <div class="mobile">
+    <div id="menu" class="collapse">
       <ul class="list-group">
         <nuxt-link to="/"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe5c3;</i>Inicio</li></nuxt-link>
         <nuxt-link to="profile" v-if="this.isLogged"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe556;</i>Perfil</li></nuxt-link>
@@ -16,16 +16,17 @@
         <button @click="logOut" v-if="this.isLogged" style="border:none;"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xE8AC;</i>Cerrar sessión</li></button>
       </ul>
     </div>
-
-    <div class="menu">
+    </div>
+  -->
+    <div class="men-u">
       <div class="userch">
         <nuxt-link :to="'/' + this.logged"><i class="material-icons ico">&#xe7fd;</i></nuxt-link>
         <div class="btn-group" role="group">
           <div class="btn-group">
-            <nuxt-link to="#" id="showSearcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons ico">&#xe8b6;</i></nuxt-link>
-            <div class="dropdown-menu srchBloc" aria-labelledby="showSearcher">
+            <nuxt-link to="/" id="showSearcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons ico">&#xe8b6;</i></nuxt-link>
+            <!--<div class="dropdown-menu srchBloc" aria-labelledby="showSearcher">
               <div class="srch"><searcherC style="display: inline;display:flex;flex-flow:row nowrap;"></searcherC></div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -44,7 +45,6 @@ import logo from '~/components/common/logo'
 import searcherC from '~/components/common/searcherC'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'headerC',
   components: {
     logo,
     searcherC
@@ -70,7 +70,8 @@ export default {
 </script>
 <style scoped lang='scss'>
 @import "assets/sass/colors.scss";
-.header {
+
+.heade-r {
   width: 100%;
   height: 70px;
   background:#00a4ba;
@@ -87,14 +88,14 @@ export default {
   flex-wrap:nowrap;
 }
 
-.header .logo {
+.heade-r .logo {
   font-size:30px;
   max-width: 240px;
   margin-left: 2%;
 }
 
 
-.header nav {
+.navabar {
   display: flex;
   width:30%;
   font-size: 30px;
@@ -102,7 +103,7 @@ export default {
 
 }
 
-.header nav a {
+.navabar a {
   text-align: right;
   border-radius: $whiteColor;
   color:$blueColor;
@@ -111,15 +112,15 @@ export default {
   margin-right: 2px;
 }
 
-.header nav i {
+.navabar i {
   font-size: 35px;
 }
 
-.header .menu{
+.men-u{
   display: none;
 }
 
-.mob-menu {
+.mobile {
   position:absolute;
   z-index:1;
   background-color:#fff;
@@ -172,19 +173,19 @@ li .icon-l {
 
 @media screen and (min-width: 800px) {
 
-  .header .mob-menu {
-    display: none;
+  .mobile {
+    visibility: hidden;
   }
 
-  .header {
+  .heade-r {
     padding: 10px;
     height: auto;
   }
 
-  .header nav{
+  .navabar{
     display:none;
   }
-  .header .menu{
+  .heade-r .men-u{
     max-height: 48px;
     font-size: 1.2rem;
     width:60%;
@@ -193,7 +194,7 @@ li .icon-l {
     justify-content: space-around;
   }
 
-  .header .menu a.line{
+  .heade-r .men-u a.line{
     border-width: 2px;
     border-bottom-color: $redColor;
     font-weight: lighter;
