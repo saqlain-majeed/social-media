@@ -12,7 +12,7 @@
 @import "assets/sass/colors.scss";
 .searcher {
   width: 100%;
-  padding: 10px;
+  margin-top: 5px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;

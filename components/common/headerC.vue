@@ -1,5 +1,17 @@
 <template>
   <div class="heade-r">
+    <div class="desktopS">
+      <div class="desktopSearcher">
+        <span @click="showSearcher" class="close"><i class="material-icons icosearch">&#xE14C;</i></span>
+        <div class="searchSection">
+          <input type="text" class="inputfield" placeholder="restaurante, ciudad, comida.."><i class="material-icons icosearch">&#xe8b6;</i>
+          <div class="searchoption" style="width:100%;margin-top:4%;height:50px;">
+            <button type="button" class="btn btn-info" style="margin-left:2%;"><div style="display:flex;align-items:center;"><span>Busqueda filtrada</span><i class="material-icons">&#xE145;</i></div></button>
+            <button type="button" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Mi zona</span><i class="material-icons">&#xe55f;</i></div></button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="logo"><logo></logo></div>
     <div class="navabar">
       <a href="#" @click="showMenu" class="display:block;"><i class="material-icons ico">&#xe5d2;</i></a>
@@ -19,14 +31,8 @@
     <div class="men-u">
       <div class="userch">
         <nuxt-link :to="'/' + this.logged"><i class="material-icons ico">&#xe7fd;</i></nuxt-link>
-        <div class="btn-group" role="group">
-          <div class="btn-group">
-            <nuxt-link to="/" id="showSearcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons ico">&#xe8b6;</i></nuxt-link>
-            <!--<div class="dropdown-menu srchBloc" aria-labelledby="showSearcher">
-              <div class="srch"><searcherC style="display: inline;display:flex;flex-flow:row nowrap;"></searcherC></div>
-            </div> -->
-          </div>
-        </div>
+            <a href="#" @click="showSearcher"><i class="material-icons ico">&#xe8b6;</i></a>
+            <div class="srchBloc"><searcherC style="display: inline;display:flex;flex-flow:row nowrap;"></searcherC></div>
       </div>
       <nuxt-link to="#" class="line">TuZona</nuxt-link>
       <nuxt-link to="" class="line tall opa">|</nuxt-link>
@@ -45,7 +51,8 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      show: false
+      show: false,
+      showSearch: false
     }
   },
   components: {
@@ -78,6 +85,17 @@ export default {
         drawer.style.setProperty('height', '0')
         this.show = false
       }
+    },
+    showSearcher () {
+      if (!this.showSearch) {
+        this.showSearch = true
+        document.getElementsByClassName('desktopS')[0].style.opacity = '1'
+        document.getElementsByClassName('desktopSearcher')[0].style.visibility = 'visible'
+      } else {
+        this.showSearch = false
+        document.getElementsByClassName('desktopS')[0].style.opacity = '0'
+        document.getElementsByClassName('desktopSearcher')[0].style.visibility = 'hidden'
+      }
     }
   }
 }
@@ -89,7 +107,7 @@ export default {
   z-index:1;
   background-color:#fff;
   margin-left: -110%;;
-  margin-top: 6.7em;
+  margin-top: 6.6em;
   width: 130%;
   height: 0;
   color: black;
@@ -182,6 +200,10 @@ export default {
   border: 1px solid white;
 }
 
+.desktopS {
+  display: none;
+}
+
 @media screen and (min-width: 800px) {
 
   .mobile {
@@ -232,15 +254,66 @@ export default {
     font-size: 30px;
   }
 
-  .srch {
-    width: 100%;
-    height: 40px;
-    width: 600px;
+  .srchBloc {
+    display: none;
   }
 
-  .srchBloc {
-    margin-left: -30em;
-    margin-top: .7em;
+  .close {
+    color: white;
+    float: right;
+    font-size: 40px;
+    margin: 25px;
+    z-index:1;
+  }
+
+  .desktopS {
+    display: block;
+    z-index: 1;
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+    transition: all 0.5s linear;
+  }
+  .desktopSearcher {
+    position: fixed;
+    visibility: hidden;
+    width: 98%;
+    opacity: .8;
+    height: 100%;
+    background-color: black;
+    z-index: 1;
+  }
+  .searchSection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    margin-left: 30%;
+    margin-top: 25%;
+    z-index: 2;
+
+  }
+
+  .inputfield {
+    width: 85%;
+    height: 50px;
+    font-size: 30px;
+    background-color: white;
+    color: white;
+    opacity: 1;
+    padding: 20px;
+    z-index: 3;
+    background-color: black;
+  }
+  .icosearch {
+    font-size: 50px;
+    color: white;
+  }
+
+  .searchoption {
+    width: 100%;
+    border: 1px solid red;
   }
 
   .tall {
