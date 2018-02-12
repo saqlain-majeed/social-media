@@ -5,14 +5,14 @@
       <a href="#" @click="showMenu" class="display:block;"><i class="material-icons ico">&#xe5d2;</i></a>
     </div>
     <div class="mobile">
-      <div class="mobilebloc" id="menu">
+      <div class="mobilebloc">
       <ul class="mylist">
         <a href="/"><div class="listed"><i class="material-icons icon-l">&#xe5c3;</i>Inicio</div></a>
         <a href="profile" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xe556;</i>Perfil</div></a>
         <a href="login" v-if="!this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xe7fe;</i>Iniciar sesión / Registrarse</div></a>
         <a href="/" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xe83a;</i>Mis favoritos</div></a>
         <a href="/"><div class="listed"><i class="material-icons icon-l">&#xe0c8;</i>Tu Zona</div></a>
-        <a href="#" @click="logOut" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xE8AC;</i>Cerrar sesión</div></a>
+        <a href="#" @click="logOut" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l" style="color:red;">&#xE8AC;</i>Cerrar sesión</div></a>
       </ul>
       </div>
     </div>
@@ -84,9 +84,6 @@ export default {
 </script>
 <style scoped lang='scss'>
 @import "assets/sass/colors.scss";
-.mobile {
-
-}
 .mobilebloc {
   position:absolute;
   z-index:1;
@@ -107,11 +104,25 @@ export default {
   width: 100%;
   border-bottom: 1px solid #E6E6E6;
 }
-
+.listed:hover{
+  background-color: #00a4ba;
+  opacity: 0.8;
+  color:white;
+}
+.listed:hover > .icon-l{
+  background-color: #00a4ba;
+  opacity: 0.8;
+  color:white;
+}
+.mylist a{
+  color: black;
+  text-decoration: none;
+  background-color:#fff;
+}
 .icon-l {
   margin-left: 20%;
   margin-right: 10px;
-  color:$blueColor;
+  color:#00a4ba;
 }
 
 .heade-r {
@@ -162,33 +173,6 @@ export default {
 .men-u{
   display: none;
 }
-
-.ul-menu {
-  display:flex;
-  align-items:center;
-  background-color: #fff;
-  padding: none;
-  padding-left: 7em;
-}
-
-.mylist a{
-  color: black;
-  text-decoration: none;
-  background-color:#fff;
-}
-
-.ul-menu {
-  background-color:#fff;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-}
-
-.ul-menu a:hover{
-  color: grey;
-
-}
-
 .ico {
   color: white;
 }

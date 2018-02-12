@@ -64,11 +64,24 @@
       setMod () {
         if (this.info.lng !== 0 && this.info.lat !== 0) {
           this.setCoordinates({ lng: this.info.lng, lat: this.info.lat })
-          document.getElementById('myModal').style.visibility = 'visible'
+          var myModal = document.getElementById('myModal')
+          var modlBox = document.getElementsByClassName('modlbox')[0]
+          myModal.style.visibility = 'visible'
+          modlBox.style.opacity = '1'
+          window.onclick = function(event) {
+            if (event.target == myModal) {
+              myModal.style.visibility = 'hidden'
+              modlBox.style.border = '0'
+              modlBox.style.opacity = '0'
+            }
+          }
         }
       },
       closeMod () {
+        let modlBox = document.getElementsByClassName('modlbox')[0]
         document.getElementById('myModal').style.visibility = 'hidden'
+        modlBox.style.border = '0'
+        modlBox.style.opacity = '0'
       }
     },
     components: {
