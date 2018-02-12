@@ -40,7 +40,6 @@ export default {
           }
         })
         commit('setUser', user['uid'])
-        console.log('*******' + user['uid'])
         dispatch('bindFirebaseSetProfile', {uid: user['uid'], pag: 7})
       } else {
         dispatch('unbindFirebaseReferences')
@@ -92,6 +91,29 @@ export default {
   setCoordinates ({commit}, coordinates) { commit('setCoords', coordinates) },
   addNewComment ({state}, newComment) { state.newComment.push(newComment) },
   editProfile ({commit, state}, newProfile) { state.newProfile.update(newProfile) },
+  setMainPosts({commit}) {
+    let db = firebaseApp.database()
+    let users = []
+    let mainP = []
+    db.ref('/posts/').on('value', snapshot2 => {
+      if (snapshot2.val()) { for (var i in snapshot2.val()) { users.push(i) } }
+      for (var i in users) {
+        db.ref('/posts/' + users[i]).on('value', snapshot => {
+          if (snapshot.val()) {
+            for (var i in snapshot.val()) {
+              if (snapshot.val()[i].date){
+                mainP.push(snapshot.val()[i])
+              }
+            }
+          }
+        })
+      }
+    })
+    console.log('array**')
+    console.log(mainP)
+    console.log('________')
+    commit('setMainPosts', mainP)
+  },
   bindFirebaseSetProfile: firebaseAction(({state, commit, dispatch}, {uid, pag}) => {
     let userProfile = userRef(uid)
     let userPosts = usrPosts(uid).orderByChild('date').limitToFirst(pag)

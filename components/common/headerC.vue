@@ -2,22 +2,20 @@
   <div class="heade-r">
     <div class="logo"><logo></logo></div>
     <div class="navabar">
-      <nuxt-link to="/" data-toggle="collapse" data-target="#menu"><i class="material-icons ico">&#xe5d2;</i></nuxt-link>
+      <a href="#" @click="showMenu" class="display:block;"><i class="material-icons ico">&#xe5d2;</i></a>
     </div>
-    <!--
     <div class="mobile">
-    <div id="menu" class="collapse">
-      <ul class="list-group">
-        <nuxt-link to="/"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe5c3;</i>Inicio</li></nuxt-link>
-        <nuxt-link to="profile" v-if="this.isLogged"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe556;</i>Perfil</li></nuxt-link>
-        <nuxt-link to="login" v-if="!this.isLogged"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe7fe;</i>Inicia sesión / Regístrate</li></nuxt-link>
-        <nuxt-link to="/" v-if="this.isLogged"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe83a;</i>Mis favoritos</li></nuxt-link>
-        <nuxt-link to="/"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xe0c8;</i>Tu Zona</li></nuxt-link>
-        <button @click="logOut" v-if="this.isLogged" style="border:none;"><li class="list-group-item ul-menu"><i class="material-icons icon-l">&#xE8AC;</i>Cerrar sessión</li></button>
+      <div class="mobilebloc" id="menu">
+      <ul class="mylist">
+        <a href="/"><div class="listed"><i class="material-icons icon-l">&#xe5c3;</i>Inicio</div></a>
+        <a href="profile" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xe556;</i>Perfil</div></a>
+        <a href="login" v-if="!this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xe7fe;</i>Iniciar sesión / Registrarse</div></a>
+        <a href="/" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xe83a;</i>Mis favoritos</div></a>
+        <a href="/"><div class="listed"><i class="material-icons icon-l">&#xe0c8;</i>Tu Zona</div></a>
+        <a href="#" @click="logOut" v-if="this.isLogged"><div class="listed"><i class="material-icons icon-l">&#xE8AC;</i>Cerrar sesión</div></a>
       </ul>
+      </div>
     </div>
-    </div>
-  -->
     <div class="men-u">
       <div class="userch">
         <nuxt-link :to="'/' + this.logged"><i class="material-icons ico">&#xe7fd;</i></nuxt-link>
@@ -45,6 +43,11 @@ import logo from '~/components/common/logo'
 import searcherC from '~/components/common/searcherC'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  data () {
+    return {
+      show: false
+    }
+  },
   components: {
     logo,
     searcherC
@@ -64,12 +67,52 @@ export default {
     logOut () {
       this.onSetLogOut()
       this.$router.push('/')
+    },
+    showMenu () {
+      var drawer = document.getElementsByClassName('mobilebloc')[0]
+      var height = drawer.scrollHeight
+      if (!this.show) {
+        drawer.style.setProperty('height', height + 'px')
+        this.show = true
+      } else {
+        drawer.style.setProperty('height', '0')
+        this.show = false
+      }
     }
   }
 }
 </script>
 <style scoped lang='scss'>
 @import "assets/sass/colors.scss";
+.mobile {
+
+}
+.mobilebloc {
+  position:absolute;
+  z-index:1;
+  background-color:#fff;
+  margin-left: -110%;;
+  margin-top: 6.7em;
+  width: 130%;
+  height: 0;
+  color: black;
+  overflow: hidden;
+  transition: height 0.3s ease-out;
+}
+.listed {
+  display: flex;
+  align-items: center;
+  padding-left: 30%;
+  padding: 15px;
+  width: 100%;
+  border-bottom: 1px solid #E6E6E6;
+}
+
+.icon-l {
+  margin-left: 20%;
+  margin-right: 10px;
+  color:$blueColor;
+}
 
 .heade-r {
   width: 100%;
@@ -120,16 +163,6 @@ export default {
   display: none;
 }
 
-.mobile {
-  position:absolute;
-  z-index:1;
-  background-color:#fff;
-  margin-left: -3em;
-  margin-top: 6.7em;
-  width: 130%;
-  color: black;
-}
-
 .ul-menu {
   display:flex;
   align-items:center;
@@ -138,13 +171,7 @@ export default {
   padding-left: 7em;
 }
 
-li .icon-l {
-  float:right;
-  margin-right: .8em;
-  color:$blueColor;
-}
-
-.list-group a{
+.mylist a{
   color: black;
   text-decoration: none;
   background-color:#fff;
@@ -174,7 +201,7 @@ li .icon-l {
 @media screen and (min-width: 800px) {
 
   .mobile {
-    visibility: hidden;
+    display: none;
   }
 
   .heade-r {

@@ -25,5 +25,8 @@ export default {
   },
   setNumPosts (state, value) {
     state.numPosts = value
+  },
+  setMainPosts (state, value) {
+    state.mainPosts = value
   }
 }
