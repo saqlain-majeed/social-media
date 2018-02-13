@@ -102,6 +102,10 @@ export default {
 </script>
 <style scoped lang='scss'>
 @import "assets/sass/colors.scss";
+
+.btn {
+  transition: none;
+}
 .mobilebloc {
   position:absolute;
   z-index:1;
@@ -205,16 +209,13 @@ export default {
 }
 
 @media screen and (min-width: 800px) {
-
   .mobile {
     display: none;
   }
-
   .heade-r {
     padding: 10px;
     height: auto;
   }
-
   .navabar{
     display:none;
   }
@@ -226,7 +227,6 @@ export default {
     flex-direction: row-reverse;
     justify-content: space-around;
   }
-
   .heade-r .men-u a.line{
     border-width: 2px;
     border-bottom-color: $redColor;
@@ -236,7 +236,6 @@ export default {
     display: flex;
     align-items: center;
   }
-
   .userch{
     font-size: 1.3em;
     display: flex;
@@ -244,7 +243,6 @@ export default {
     justify-content: space-around;
     width: 20%;
   }
-
   .userch a{
     color:$darkBlue;
     padding: 10px;
@@ -253,11 +251,9 @@ export default {
   .userch a i{
     font-size: 30px;
   }
-
   .srchBloc {
     display: none;
   }
-
   .close {
     color: white;
     float: right;
@@ -265,13 +261,11 @@ export default {
     margin: 25px;
     z-index:1;
   }
-
   .desktopS {
     display: block;
     z-index: 1;
     opacity: 0;
     width: 0px;
-    height: 0px;
     transition: all 0.5s linear;
   }
   .desktopSearcher {

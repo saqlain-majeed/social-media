@@ -20,7 +20,3 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
-
-## Licensing
-
-WhereToEat is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the full license text.
