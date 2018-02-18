@@ -109,8 +109,10 @@ export default {
         })
       }
     })
-    console.log('array**')
+    var newObj = Object.assign({}, ...mainP)
     console.log(mainP)
+    console.log('array**')
+    console.log(newObj)
     console.log('________')
     commit('setMainPosts', mainP)
   },

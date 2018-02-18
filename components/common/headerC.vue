@@ -1,18 +1,11 @@
 <template>
   <div class="heade-r">
+    <div class="logo"><logo></logo></div>
     <div class="desktopS">
       <div class="desktopSearcher">
-        <span @click="showSearcher" class="close"><i class="material-icons icosearch">&#xE14C;</i></span>
-        <div class="searchSection">
-          <input type="text" class="inputfield" placeholder="restaurante, ciudad, comida.."><i class="material-icons icosearch">&#xe8b6;</i>
-          <div class="searchoption" style="width:100%;margin-top:4%;height:50px;">
-            <button type="button" class="btn btn-info" style="margin-left:2%;"><div style="display:flex;align-items:center;"><span>Busqueda filtrada</span><i class="material-icons">&#xE145;</i></div></button>
-            <button type="button" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Mi zona</span><i class="material-icons">&#xe55f;</i></div></button>
-          </div>
-        </div>
+        <searchWindowC @closeWindow="showSearcher"></searchWindowC>
       </div>
     </div>
-    <div class="logo"><logo></logo></div>
     <div class="navabar">
       <a href="#" @click="showMenu" class="display:block;"><i class="material-icons ico">&#xe5d2;</i></a>
     </div>
@@ -47,6 +40,7 @@
 <script type="text/javascript">
 import logo from '~/components/common/logo'
 import searcherC from '~/components/common/searcherC'
+import searchWindowC from '~/components/common/searchWindow'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
@@ -57,7 +51,8 @@ export default {
   },
   components: {
     logo,
-    searcherC
+    searcherC,
+    searchWindowC
   },
   computed: {
     ...mapGetters({ isLogged: 'getUser' }),
@@ -102,10 +97,6 @@ export default {
 </script>
 <style scoped lang='scss'>
 @import "assets/sass/colors.scss";
-
-.btn {
-  transition: none;
-}
 .mobilebloc {
   position:absolute;
   z-index:1;
@@ -254,15 +245,9 @@ export default {
   .srchBloc {
     display: none;
   }
-  .close {
-    color: white;
-    float: right;
-    font-size: 40px;
-    margin: 25px;
-    z-index:1;
-  }
   .desktopS {
     display: block;
+    position: absolute;
     z-index: 1;
     opacity: 0;
     width: 0px;
@@ -277,39 +262,6 @@ export default {
     background-color: black;
     z-index: 1;
   }
-  .searchSection {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    width: 50%;
-    margin-left: 30%;
-    margin-top: 25%;
-    z-index: 2;
-
-  }
-
-  .inputfield {
-    width: 85%;
-    height: 50px;
-    font-size: 30px;
-    background-color: white;
-    color: white;
-    opacity: 1;
-    padding: 20px;
-    z-index: 3;
-    background-color: black;
-  }
-  .icosearch {
-    font-size: 50px;
-    color: white;
-  }
-
-  .searchoption {
-    width: 100%;
-    border: 1px solid red;
-  }
-
   .tall {
     font-size:2em;
     font-weight:lighter;
