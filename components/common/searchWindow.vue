@@ -19,14 +19,14 @@
         <div class="selector">
           <div class="cel">
           <h6>Valoración</h6>
-          <select v-model="points">
+          <select v-model="rating">
             <option v-for="n in 10" :value="n">{{n}}</option>
           </select>
         </div>
           <div class="cel">
           <h6>Precio Medio</h6>
           <select v-model="bill">
-            <option value="0">0 - 10 €</option>
+            <option value="0" style="color:black;">0 - 10 €</option>
             <option v-for="n in 9" :value="n">{{n}}0 - {{n+1}}0 €</option>
           </select>
         </div>
@@ -53,7 +53,9 @@ export default {
   data () {
     return {
       filterText: 'Busqueda filtrada',
-      showFilterWin: false
+      showFilterWin: false,
+      rating: '',
+      bill: ''
     }
   },
   methods: {
@@ -65,8 +67,6 @@ export default {
         front.style.transform = 'rotateY(180deg)'
         this.showFilterWin = true
         setTimeout(() => { this.filterText = 'Busqueda estandar' }, 500)
-
-
       }else{
         back.style.transform = 'rotateY(-180deg)'
         front.style.transform = 'rotateY(0deg)'
@@ -84,6 +84,9 @@ export default {
 
 <style scoped lang="scss">
 
+input {
+  opacity:1;
+}
 
 .btn {
   transition: none;
@@ -140,14 +143,11 @@ select {
   width: 80%;
   height: 40px;
   padding: 5px;
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: transparent;
+  opacity:1;
 }
 
-select option {
-  color:black;
-  background-color: red;
-}
 
 .selector {
   color:white;

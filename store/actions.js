@@ -4,6 +4,7 @@ import {firebaseAction} from 'vuexfire'
 import { newFaceGooUser } from '~/utils/utils'
 import { userRef, usrPosts, postComments } from '~/utils/firebaseReferences'
 import { ratingUserRef, globalRef, userPostRef, newRating, uploadRating, setRating, deleteRating } from '~/utils/ratingReferences'
+import { locationFilter, mainFilter } from '~/utils/searchFunctions'
 import uuidv1 from 'uuid/v1'
 
 const _uploadImage = (folder, user) => (file) => {
@@ -91,7 +92,7 @@ export default {
   setCoordinates ({commit}, coordinates) { commit('setCoords', coordinates) },
   addNewComment ({state}, newComment) { state.newComment.push(newComment) },
   editProfile ({commit, state}, newProfile) { state.newProfile.update(newProfile) },
-  setMainPosts({commit}) {
+  setMainPosts({commit,dispatch}, {type, cords}) {
     let db = firebaseApp.database()
     let users = []
     let mainP = []
@@ -100,25 +101,17 @@ export default {
       for (var i in users) {
         db.ref('/posts/' + users[i]).on('value', snapshot => {
           if (snapshot.val()) {
-            for (var i in snapshot.val()) {
-              if (snapshot.val()[i].date){
-                mainP.push(snapshot.val()[i])
-              }
-            }
+            if(type === "mainlist"){ mainP = mainFilter(snapshot.val(), mainP) }
+            if(type === "searchlist"){ mainP = locationFilter(snapshot.val(), cords, mainP) }
           }
         })
       }
-    })
-    var newObj = Object.assign({}, ...mainP)
-    console.log(mainP)
-    console.log('array**')
-    console.log(newObj)
-    console.log('________')
-    commit('setMainPosts', mainP)
-  },
-  bindFirebaseSetProfile: firebaseAction(({state, commit, dispatch}, {uid, pag}) => {
-    let userProfile = userRef(uid)
-    let userPosts = usrPosts(uid).orderByChild('date').limitToFirst(pag)
+  })
+  commit('setMainPosts', mainP)
+},
+bindFirebaseSetProfile: firebaseAction(({state, commit, dispatch}, {uid, pag}) => {
+  let userProfile = userRef(uid)
+  let userPosts = usrPosts(uid).orderByChild('date').limitToFirst(pag)
     usrPosts(uid).once('value', snapshot => { if (snapshot.val()) { commit('setNumPosts', snapshot.numChildren()) } })
     dispatch('bindFirebaseReference', {reference: userProfile, toBind: 'userData'}).then(() => { commit('setNewProfile', userProfile) })
     dispatch('bindFirebaseReference', {reference: userPosts, toBind: 'userPosts'})

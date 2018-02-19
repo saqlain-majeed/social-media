@@ -1,6 +1,6 @@
 <template>
   <div class="listBloc">
-      <singleC v-for="info in mainPosts" :key="info.date" v-if="info.date" :info="info"></singleC>
+      <singleC v-for="info in mainPosts" :key="info.date" v-if="info.date" :info="info" :show="false"></singleC>
   </div>
 </template>
 <script>
@@ -10,13 +10,10 @@
   export default {
     data () {
       return {
-        information: []
       }
     },
     methods: {
       ...mapActions(['setMainPosts']),
-      nPo () {
-      }
     },
     components: {
       singleC
@@ -25,8 +22,7 @@
       ...mapGetters({ mainPosts: 'getMainPosts' })
     },
     mounted () {
-      this.setMainPosts()
-      this.nPo()
+      this.setMainPosts({type: 'mainlist', cords: ''})
     }
   }
 </script>

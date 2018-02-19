@@ -1,5 +1,5 @@
 <template>
-  <div class="mainBloc">
+  <div class="mainBloc" :id="info.title">
     <img :src="info.src" v-show="loadedImage" @load="handleLoadedImage">
     <div class="spinner" v-show="loadingImage"><img src="~/assets/ovalImg.svg" width="80" alt=""></div>
     <div class="conta-in">
@@ -18,7 +18,8 @@
       <nuxt-link :to="this.userDirect" class="user"><i class="material-icons ico">&#xe7fd;</i><span class="name">@{{userData.username}} | <span style="font-size:12px;">{{ (new Date(info.date)).toUTCString().substr(5, 11) }}</span></span></nuxt-link>
     <h3>{{ info.comTitle }}</h3>
     <p>{{ info.comment }} </p>
-    <ratingC :info="info"></ratingC>
+    <ratingC :info="info" v-if="this.show"></ratingC>
+    <button type="button" class="btn btn-danger" style="font-size:15px;" v-if="!this.show">@{{userData.username}}</button>
     <div id="myModal" class="modl"><showMapC class="modlbox" @closeMod="closeMod()"></showMapC></div>
     <showCommentsC :info="info"></showCommentsC>
     <showInfoC :info="info"></showInfoC>
@@ -33,7 +34,7 @@
   import showInfoC from '~/components/post/showInfoC'
   import { mapGetters, mapActions } from 'vuex'
   export default {
-    props: ['info'],
+    props: ['info', 'show'],
     data () {
       return {
         mapRef: '#' + this.info.post_id,

@@ -22,18 +22,37 @@
         </div>
       </div>
         <button type="button" class="btn btn-danger send">Buscar</button>
-        <button type="button" class="btn btn-info send">Restaurantes cerca de mí</button>
+        <button type="button" @click="locate" class="btn btn-info send">Restaurantes cerca de mí</button>
       </div>
     </div>
 </template>
 <script type="text/javascript">
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
       points: 5,
-      bill: 0
+      bill: 0,
+      lat: '',
+      lng: ''
     }
-  }
+  },
+  methods: {
+    ...mapActions(['setMainPosts']),
+    locate(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                this.lat = pos.lat;
+                this.lng = pos.lng;
+                this.$router.push({path: '/search/' +'query', query: {lat: this.lat, lng: this.lng}})
+            }.bind(this));
+        }
+    }
+  },
 }
 </script>
 <style scoped lang='scss'>
