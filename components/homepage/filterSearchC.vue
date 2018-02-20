@@ -1,10 +1,10 @@
 <template>
     <div class="col">
       <div>
-        <h5>Busqueda personalizada</h5>
+        <h5><span>Busqueda personalizada</span><i class="material-icons">&#xE8B6;</i></h5>
         <input type="text" ref="words" placeholder="restaurante, tipos, palabra clave..">
         <GmapAutocomplete @place_changed="setPlace"></GmapAutocomplete>
-        <h5>Filtros</h5>
+        <h5><span>Filtros</span><i class="material-icons">&#xE241;</i></h5>
         <div class="login">
         <div class="cel">
           <h6>Precio Medio</h6>
@@ -23,8 +23,8 @@
         </div>
         </div>
       </div>
-        <button type="button" class="btn btn-danger send" @click="searchRestaurants">Buscar</button>
-        <button type="button" @click="locate" class="btn btn-info send">Restaurantes cerca de mí</button>
+        <button type="button" class="btn btn-info send butt" @click="searchRestaurants"><i class="material-icons">&#xE8B6;</i></button>
+        <button type="button" @click="locate" class="btn btn-danger send butt"><span>Restaurantes cerca de mí </span><i class="material-icons">&#xe55f;</i></button>
       </div>
     </div>
 </template>
@@ -92,21 +92,15 @@ select {
   height: 40px;
   padding: 5px;
 }
-.fillF {
-  width: 85%;
-}
-
-.fillF h5 {
-  background-color: #E5BE5C;
-  border-radius: 5px;
-  padding: 5px;
-}
 
 aside .col {
   width: 100%;
 }
 
 .send {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   margin-top: 10px;
   height: 50px;
@@ -132,12 +126,29 @@ input {
   margin-top: 15px;
 }
 
+button i{
+  font-size: 40px;
+  margin-left: 2%;
+}
+
+
 h5 {
-  background-color: #00a4ba;
-  padding: 5px;
+  // background-color: #00a4ba;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border:1px solid #00a4ba;
+  color: #00a4ba;
+  padding: 7px;
   margin-top: 15px;
-  color: white;
-  font-weight: 300;
+  font-weight: 400;
+  border-top-right-radius: 10px;
+  text-align:center;
+}
+
+h5 i {
+  margin-left: 2%;
 }
 
 </style>
