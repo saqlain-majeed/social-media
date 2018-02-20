@@ -2,13 +2,14 @@
     <div class="col">
       <div>
         <h5>Busqueda personalizada</h5>
-        <input type="text" placeholder="nombre del restaurante..">
-        <input type="text" placeholder="ciudad..">
+        <input type="text" ref="words" placeholder="restaurante, tipos, palabra clave..">
+        <GmapAutocomplete @place_changed="setPlace"></GmapAutocomplete>
         <h5>Filtros</h5>
         <div class="login">
         <div class="cel">
           <h6>Precio Medio</h6>
           <select v-model="bill">
+            <option value="-1">sin especif.</option>
             <option value="0">0 - 10 €</option>
             <option v-for="n in 9" :value="n">{{n}}0 - {{n+1}}0 €</option>
           </select>
@@ -16,12 +17,13 @@
         <div class="cel">
           <h6>Valoración</h6>
           <select v-model="points">
+            <option value="-1">sin especif.</option>
             <option v-for="n in 10" :value="n">{{n}}</option>
           </select>
         </div>
         </div>
       </div>
-        <button type="button" class="btn btn-danger send">Buscar</button>
+        <button type="button" class="btn btn-danger send" @click="searchRestaurants">Buscar</button>
         <button type="button" @click="locate" class="btn btn-info send">Restaurantes cerca de mí</button>
       </div>
     </div>
@@ -31,10 +33,12 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      points: 5,
-      bill: 0,
+      points: -1,
+      bill: -1,
+      latLng: {},
       lat: '',
-      lng: ''
+      lng: '',
+      place: 'Madrid'
     }
   },
   methods: {
@@ -48,11 +52,28 @@ export default {
                 };
                 this.lat = pos.lat;
                 this.lng = pos.lng;
-                this.$router.push({path: '/search/' +'query', query: {lat: this.lat, lng: this.lng}})
+                this.$router.push({path: '/searchLocation/' +'query', query: {lat: this.lat, lng: this.lng}})
             }.bind(this));
         }
+    },
+    searchRestaurants () {
+      let searchWords = this.$refs.words.value
+      if(searchWords !== ''){
+        this.setMainPosts({type: 'wordList', words: searchWords, bill: this.bill, points: this.points})
+        this.$router.push({path: '/search/' + 'query', query: { words: searchWords }})
+      } else if (this.lat !== ''){
+        this.$router.push({path: '/searchLocation/' +'query', query: {lat: this.lat, lng: this.lng}})
+      }
+    },
+    setPlace(place) {
+      this.latLng = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      }
+      this.lat = this.latLng.lat
+      this.lng = this.latLng.lng
     }
-  },
+  }
 }
 </script>
 <style scoped lang='scss'>
@@ -99,7 +120,11 @@ aside .col {
 .log:hover {
   background-color: #9a8f67;
 }
-
+.inns{
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+}
 input {
   width: 100%;
   height: 50px;

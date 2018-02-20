@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="isLoading" class="load"><img src="~/assets/oval.svg" width="80" alt=""></div>
     <headerC></headerC>
     <searcherC></searcherC>
     <div v-if="loaded">
@@ -22,6 +23,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default{
   data(){
     return {
+      isLoading: true,
       center: {lat: parseFloat(this.$route.query.lat), lng: parseFloat(this.$route.query.lng)},
       markers: [],
       infoContent: '',
@@ -72,6 +74,12 @@ export default{
 
   },
   mounted () {
+
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+    setTimeout(() => {
+      this.isLoading = false
+      document.getElementsByTagName('body')[0].style.overflow = 'visible'
+    }, 2000)
     this.setMainPosts({type: 'searchlist', cords: {lat: parseFloat(this.$route.query.lat), lng: parseFloat(this.$route.query.lng)}})
     let c = 0
     this.mainPosts.forEach(info => {
@@ -90,6 +98,19 @@ export default{
 }
 </script>
 <style scoped media="screen">
+
+.load {
+  padding-top: 20%;
+  padding-left: 47%;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height:100%;
+  background-color: rgba(255,255,255,0.8);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 h3{
   text-align: center;
   padding: 20px;

@@ -20,3 +20,35 @@ export const mainFilter = (snapshot, mainP) => {
   }
   return mainP
 }
+export const wordFilter = (snapshot, words, mainP, bill, points) => {
+  console.log(words)
+  console.log(bill + '//' + points)
+  for (var i in snapshot) {
+    var patt = new RegExp(words)
+    if (patt.test(snapshot[i].title) || patt.test(snapshot[i].comTitle) || patt.test(snapshot[i].comment)){
+      if (bill === -1 && points === -1){
+        mainP.push(snapshot[i])
+      } else if (bill !== -1 && points === -1){
+        if(snapshot[i].bill === bill){
+          mainP.push(snapshot[i])
+        }
+      } else if (bill === -1 && points !== -1){
+        if(snapshot[i].points === points){
+          mainP.push(snapshot[i])
+        }
+      } else {
+        if(snapshot[i].bill === points && snapshot[i].points){
+          mainP.push(snapshot[i])
+        }
+      }
+    }
+  }
+  return mainP
+}
+
+export const setUserIds = (snapshot, users) => {
+  for (var i in snapshot) {
+    users.push(i)
+  }
+  return users
+}

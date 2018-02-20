@@ -4,7 +4,7 @@ import {firebaseAction} from 'vuexfire'
 import { newFaceGooUser } from '~/utils/utils'
 import { userRef, usrPosts, postComments } from '~/utils/firebaseReferences'
 import { ratingUserRef, globalRef, userPostRef, newRating, uploadRating, setRating, deleteRating } from '~/utils/ratingReferences'
-import { locationFilter, mainFilter } from '~/utils/searchFunctions'
+import { locationFilter, mainFilter, setUserIds, wordFilter } from '~/utils/searchFunctions'
 import uuidv1 from 'uuid/v1'
 
 const _uploadImage = (folder, user) => (file) => {
@@ -92,17 +92,18 @@ export default {
   setCoordinates ({commit}, coordinates) { commit('setCoords', coordinates) },
   addNewComment ({state}, newComment) { state.newComment.push(newComment) },
   editProfile ({commit, state}, newProfile) { state.newProfile.update(newProfile) },
-  setMainPosts({commit,dispatch}, {type, cords}) {
+  setMainPosts({commit,dispatch}, {type, cords, words, bill, points}) {
     let db = firebaseApp.database()
     let users = []
     let mainP = []
     db.ref('/posts/').on('value', snapshot2 => {
-      if (snapshot2.val()) { for (var i in snapshot2.val()) { users.push(i) } }
+      if (snapshot2.val()) { users = setUserIds(snapshot2.val(), users) }
       for (var i in users) {
         db.ref('/posts/' + users[i]).on('value', snapshot => {
           if (snapshot.val()) {
             if(type === "mainlist"){ mainP = mainFilter(snapshot.val(), mainP) }
             if(type === "searchlist"){ mainP = locationFilter(snapshot.val(), cords, mainP) }
+            if(type === "wordList"){ mainP = wordFilter(snapshot.val(), words, mainP, bill, points) }
           }
         })
       }
