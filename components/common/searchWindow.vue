@@ -4,7 +4,7 @@
     <div class="front">
       <span @click="closeWin" class="close"><i class="material-icons icosearch">&#xE14C;</i></span>
       <div class="searchSection">
-        <input type="text" class="inputfield" placeholder="restaurante, ciudad, comida.."><i class="material-icons icosearch">&#xe8b6;</i>
+        <input type="text" ref="words" class="inputfield" placeholder="restaurante, ciudad, comida.."><a href="#" @click="searchRestaurants"><i class="material-icons icosearch">&#xe8b6;</i></a>
         <div class="searchoption" style="width:100%;margin-top:4%;height:50px;">
           <button type="button" @click="rotate" class="btn btn-info" style="margin-left:2%;"><div style="display:flex;align-items:center;"><span>{{filterText}}</span><i class="material-icons">&#xE145;</i></div></button>
           <button type="button" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Mi zona</span><i class="material-icons">&#xe55f;</i></div></button>
@@ -14,18 +14,19 @@
     <div class="back">
       <span @click="closeWin" class="close"><i class="material-icons icosearch">&#xE14C;</i></span>
       <div class="searchSection">
-        <input type="text" class="inputfield" placeholder="nombre del restaurante..">
-        <input type="text" class="inputfield" placeholder="palabras clave..">
+        <GmapAutocomplete @place_changed="setPlace" class="inputfield"></GmapAutocomplete>
         <div class="selector">
           <div class="cel">
           <h6>Valoración</h6>
           <select v-model="rating">
+            <option value="-1">sin especif.</option>
             <option v-for="n in 10" :value="n">{{n}}</option>
           </select>
         </div>
           <div class="cel">
           <h6>Precio Medio</h6>
           <select v-model="bill">
+            <option value="-1">sin especif.</option>
             <option value="0" style="color:black;">0 - 10 €</option>
             <option v-for="n in 9" :value="n">{{n}}0 - {{n+1}}0 €</option>
           </select>
@@ -34,8 +35,8 @@
         <div class="selector" style="padding:0;">
         <div class="searchoption" style="width:100%;margin-top:4%;height:50px;">
           <button type="button" @click="rotate" class="btn btn-info" style="margin-left:2%;"><div style="display:flex;align-items:center;"><span>{{filterText}}</span><i class="material-icons">&#xE145;</i></div></button>
-          <button type="button" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Mi zona</span><i class="material-icons">&#xe55f;</i></div></button>
-          <button type="button" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Buscar</span><i class="material-icons">&#xe55f;</i></div></button>
+          <button type="button" @click="locate" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Mi zona</span><i class="material-icons">&#xe55f;</i></div></button>
+          <button type="button" @click="searchRestaurants" class="btn btn-danger" style="margin-left:5%;"><div style="display:flex;align-items:center;"><span>Buscar</span><i class="material-icons">&#xe55f;</i></div></button>
         </div>
         </div>
       </div>
@@ -54,11 +55,15 @@ export default {
     return {
       filterText: 'Busqueda filtrada',
       showFilterWin: false,
-      rating: '',
-      bill: ''
+      latLng: {},
+      lat: '',
+      lng: '',
+      rating: -1,
+      bill: -1
     }
   },
   methods: {
+    ...mapActions(['setMainPosts']),
     rotate () {
       let front = document.getElementsByClassName('front')[0]
       let back = document.getElementsByClassName('back')[0]
@@ -76,8 +81,37 @@ export default {
     },
     closeWin () {
       this.$emit('closeWindow')
+    },
+    locate(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                this.lat = pos.lat;
+                this.lng = pos.lng;
+                this.$router.push({path: '/searchLocation/' +'query', query: {lat: this.lat, lng: this.lng}})
+            }.bind(this));
+        }
+    },
+    searchRestaurants () {
+      let searchWords = this.$refs.words.value
+      if(searchWords !== ''){
+        this.setMainPosts({type: 'wordList', words: searchWords, bill: this.bill, points: this.rating})
+        this.$router.push({path: '/search/' + 'query', query: { words: searchWords }})
+      } else if (this.lat !== ''){
+        this.$router.push({path: '/searchLocation/' +'query', query: {lat: this.lat, lng: this.lng}})
+      }
+    },
+    setPlace(place) {
+      this.latLng = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      }
+      this.lat = this.latLng.lat
+      this.lng = this.latLng.lng
     }
-
   }
 }
 </script>

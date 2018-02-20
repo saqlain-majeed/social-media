@@ -21,8 +21,6 @@ export const mainFilter = (snapshot, mainP) => {
   return mainP
 }
 export const wordFilter = (snapshot, words, mainP, bill, points) => {
-  console.log(words)
-  console.log(bill + '//' + points)
   for (var i in snapshot) {
     var patt = new RegExp(words)
     if (patt.test(snapshot[i].title) || patt.test(snapshot[i].comTitle) || patt.test(snapshot[i].comment)){
