@@ -2,12 +2,12 @@
 import firebase from 'firebase'
 
 var config = {
-  apiKey: 'AIzaSyAk3Zc6tgu6TZIJdPj__DTRzWOSwPUgHAo',
-  authDomain: 'wtedata-eb0c5.firebaseapp.com',
-  databaseURL: 'https://wtedata-eb0c5.firebaseio.com',
-  projectId: 'wtedata-eb0c5',
-  storageBucket: 'wtedata-eb0c5.appspot.com',
-  messagingSenderId: '347943433455'
+  apiKey: 'xxx',
+  authDomain: 'xx-xx.firebaseapp.com',
+  databaseURL: 'xxxx',
+  projectId: 'xxxx',
+  storageBucket: 'xx-xx.appspot.com',
+  messagingSenderId: 'xxx'
 }
 
 let firebaseApp
